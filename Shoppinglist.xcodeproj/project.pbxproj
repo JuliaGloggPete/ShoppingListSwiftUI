@@ -19,6 +19,7 @@
 		B95BA48929ED34BA00FD1114 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B95BA48829ED34BA00FD1114 /* FirebaseFirestoreSwift */; };
 		B95BA48B29ED3CB800FD1114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B95BA48A29ED3CB800FD1114 /* GoogleService-Info.plist */; };
 		B95BA48D29ED575A00FD1114 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95BA48C29ED575A00FD1114 /* Item.swift */; };
+		B9E94B9529EE6BB80090A51E /* ShoppinglistVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E94B9429EE6BB80090A51E /* ShoppinglistVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		B95BA47629ED304B00FD1114 /* ShoppinglistUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppinglistUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		B95BA48A29ED3CB800FD1114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B95BA48C29ED575A00FD1114 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		B9E94B9429EE6BB80090A51E /* ShoppinglistVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppinglistVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				B95BA45D29ED304B00FD1114 /* Assets.xcassets */,
 				B95BA45F29ED304B00FD1114 /* Preview Content */,
 				B95BA48C29ED575A00FD1114 /* Item.swift */,
+				B9E94B9429EE6BB80090A51E /* ShoppinglistVM.swift */,
 			);
 			path = Shoppinglist;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			files = (
 				B95BA45C29ED304A00FD1114 /* ContentView.swift in Sources */,
 				B95BA48D29ED575A00FD1114 /* Item.swift in Sources */,
+				B9E94B9529EE6BB80090A51E /* ShoppinglistVM.swift in Sources */,
 				B95BA45A29ED304A00FD1114 /* ShoppinglistApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

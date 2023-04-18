@@ -8,97 +8,136 @@
 import SwiftUI
 import Firebase
 
-struct ContentView: View {
+
+struct ContentView : View {
     
-    let db = Firestore.firestore()
-    @State var items = [Item]()
+    
+    
+    @State var signedIn = false
+    
+    var body: some View {
+        
+        if !signedIn {
+            SignInView(signedIn: $signedIn)
+            
+        } else {
+            ShoppingListView()
+            
+        }
+        
+        
+    }
+    
+}
+    
+
+
+
+
+struct SignInView : View{
+    
+    @Binding var signedIn : Bool
+    var auth = Auth.auth()
+    
+    var body: some View{
+        
+        Button(action: {
+            
+            auth.signInAnonymously{
+                result, error in
+                if let error = error {
+                    print("error signing in")
+                } else{
+                    
+                    
+                    signedIn = true
+                    
+                }
+                
+            }
+            
+            
+        })  {Text("Sign in")
+        }
+        
+        
+        
+    }
+    
+    
+}
+
+struct ShoppingListView: View {
+    
+    @StateObject var shoppingListVM = ShoppingListVM()
+    @State var showingAddAlert = false
+    @State var newItemName = ""
     
     var body: some View {
         VStack {
             Text("test")
             List {
-                ForEach(items){
-                    item in 
-                    HStack{
-                        Text(item.name)
-                        Spacer()
-                        Button(action:{
-                            if let id = item.id {
-                                db.collection("items").document(id).updateData([
-                                    "done" : !item.done])
-                            }
-                            
-                        }) {Image(systemName: item.done ? "checkmark.square" : "square")
-                        }
+                ForEach(shoppingListVM.items){
+                    item in
+                    RowView(item: item, vm: shoppingListVM)
+                    
+                }
+                .onDelete(){ indexSet in
+                    for index in indexSet {
                         
-                        
+                        shoppingListVM.delete(index: index)
                         
                     }
                     
+                    
                 }
-                
-                
             }
-            
-            
-   
-        }.onAppear(){
-           // saveToFirestore(itemName: "gurka")
-            listenToFirestore()
-      
-            
-        }
-
-    }
-    
-    func saveToFirestore(itemName: String){
-        let item = Item(name: itemName)
-        do {
-           try db.collection("items").addDocument(from: item)
-        }
-        catch{
-            
-            print("Error saving to dv")
-            
-        }
-        
-    }
-    
-    func listenToFirestore(){
-        
-        db.collection("items").addSnapshotListener() {
-            snapshot, err in
-            
-            guard let snapshot = snapshot else {return}
-            
-            if let err = err {
-                print("error getting document \(err)")
-            } else
+            Button(action: {showingAddAlert = true
+                
+            })
             {
-                items.removeAll()
-                for document in snapshot.documents {
-                    do {
-                        let item = try document.data(as : Item.self)
-                        items.append(item)
-                    } catch {
-                        print("Error reading form db")
-                        
-                    }
-                }
-                
+                Text("Add")
                 
             }
-            
-            
+                .alert("Lägg till", isPresented: $showingAddAlert){
+                    TextField("Lägg till",text: $newItemName)
+                    Button("Add", action: {
+                        
+                        shoppingListVM.saveToFirestore(itemName: newItemName)
+                        newItemName=""
+                        
+                    })
+                    
+                }
+        }.onAppear(){
+            // saveToFirestore(itemName: "gurka")
+            shoppingListVM.listenToFirestore()
         }
-        
-        
-        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct RowView: View {
+    let item : Item
+    let vm : ShoppingListVM
+    
+    var body: some View {
+        HStack{
+            Text(item.name)
+            Spacer()
+            Button(action:{
+                vm.toggle(item: item)
+                
+            }) {Image(systemName: item.done ? "checkmark.square" : "square")
+            }
+            
+            
+            
+        }
     }
 }
